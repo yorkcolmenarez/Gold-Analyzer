@@ -3,120 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title> GOLD ANALYZER | Premium Trading XAU/USD</title>
-<meta n ame="description" content="Premium Trading - Indicador y análisis técnico del oro XAU/USD en tiempo real.">
-<meta name="theme-color" content="#0a0f1d">
+<title>Gold Analyzer - Análisis Técnico del Oro | XAU/USD</title>
+<meta name="description" content="Gold Analyzer - Plataforma de análisis técnico, cotización en tiempo real y señales del oro XAU/USD.">
+<meta name="theme-color" content="#070c18">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
+
+<!-- RESPALDO LOGO DORADO OFICIAL G CAPITAL -->
 <script>
-window.LOGO_DATA = "data:image/jpeg;base64,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";
+window.LOGO_DATA = "data:image/jpeg;base64,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";
 </script>
+
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- FIREBASE SDK -->
+<!-- Firebase compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
-body { font-family: 'Plus Jakarta Sans', sans-serif; background: #070b14; color: #f1f5f9; }
-.card-navy { background: #0c1222; border: 1px solid rgba(30, 58, 138, 0.4); }
-.card-navy:hover { border-color: rgba(245, 158, 11, 0.5); }
-.gold-btn { background: linear-gradient(135deg, #facc15 0%, #eab308 100%); color: #0f172a; font-weight: 800; border-radius: 10px; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #070c18;
+  color: #f1f5f9;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.card-navy {
+  background: #0d1527;
+  border: 1px solid rgba(30, 58, 138, 0.4);
+}
+.card-navy:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+}
+.gold-btn {
+  background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
+  color: #090d16;
+  font-weight: 800;
+  border-radius: 10px;
+}
 .gold-btn:hover { background: #fde047; }
-.gold-outline { border: 1px solid #facc15; color: #facc15; font-weight: 800; border-radius: 10px; }
-.gold-outline:hover { background: #facc15; color: #0f172a; }
-.inpt { width: 100%; background: #070b14; border: 1px solid #1e293b; border-radius: 10px; padding: 8px 12px; font-size: 12px; color: #fff; outline: none; }
-.inpt:focus { border-color: #facc15; }
+.gold-outline {
+  border: 1px solid #facc15;
+  color: #facc15;
+  font-weight: 800;
+  border-radius: 10px;
+}
+.gold-outline:hover {
+  background: #facc15;
+  color: #090d16;
+}
+.inpt {
+  width: 100%;
+  background: #070b14;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: #fff;
+  outline: none;
+}
+.inpt:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 0 1px #facc15;
+}
 </style>
 </head>
-<body class="min-h-screen bg-[#070b14] text-slate-100 flex flex-col justify-between">
+<body class="min-h-screen bg-[#070c18] text-slate-100 flex flex-col justify-between antialiased">
 
-<!-- ALERTA / TOAST -->
+<!-- NOTIFICACIÓN FLOTANTE -->
 <div id="toast" class="fixed top-3 left-1/2 -translate-x-1/2 z-50 hidden bg-[#0f172a] border border-amber-400 text-amber-200 text-xs px-4 py-2.5 rounded-2xl shadow-2xl backdrop-blur max-w-sm w-11/12 flex items-center justify-between">
   <span id="toast-text">Notificación</span>
   <button onclick="this.parentElement.classList.add('hidden')"><i class="fa-solid fa-xmark text-zinc-400"></i></button>
 </div>
 
-<!-- CABECERA CON EL NUEVO LOGO OFICIAL G CAPITAL -->
-<header class="sticky top-0 z-40 bg-[#090e1a]/95 backdrop-blur border-b border-blue-900/40 px-3 py-2">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
-    <div class="flex items-center gap-2.5">
-      <!-- LOGO G CAPITAL PREMIUM TRADING -->
-      <img src="logo.jpg" onerror="this.onerror=null;this.src=(window.LOGO_DATA||'public/logo.jpg');" alt="G Capital Premium Trading" class="w-9 h-9 rounded-xl object-cover border border-amber-400/80 shadow-lg shadow-amber-500/20 shrink-0">
-      <div>
-        <h1 class="text-sm font-black text-white tracking-wide leading-none flex items-center gap-1.5">
-          <span>G CAPITAL</span> <span class="text-amber-400">• GOLD ANALYZER</span>
-        </h1>
-        <p class="text-[9px] text-zinc-400 mt-0.5">Premium Trading • Análisis técnico del oro</p>
+<!-- CABECERA PRINCIPAL (IDÉNTICA AL VIDEO) -->
+<header class="sticky top-0 z-40 bg-[#070c18]/95 backdrop-blur border-b border-blue-900/40 px-3 sm:px-6 py-2.5">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+    
+    <!-- LOGO COMPLETO Y MARCA -->
+    <div class="flex items-center gap-2.5 min-w-0">
+      <div class="w-10 h-10 rounded-full border border-amber-400/80 p-0.5 bg-black shrink-0 shadow-lg shadow-amber-500/20 overflow-hidden flex items-center justify-center">
+        <img 
+          src="logo.jpg" 
+          onerror="this.onerror=null;this.src=(window.LOGO_DATA||'public/logo.jpg');" 
+          alt="Gold Analyzer Logo" 
+          class="w-full h-full object-contain rounded-full"
+        >
+      </div>
+
+      <div class="min-w-0">
+        <h1 class="text-sm sm:text-base font-black tracking-wide text-white leading-none">GOLD ANALYZER</h1>
+        <p class="text-[10px] text-zinc-400 mt-1 leading-tight">Análisis técnico del oro • Indicador</p>
       </div>
     </div>
-    
-    <div class="flex items-center gap-2">
-      <div class="hidden sm:flex items-center gap-1.5 bg-[#0b1329] border border-emerald-500/40 text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold">
+
+    <!-- BOTONES DE ESTADO (MERCADO REAL Y EN VIVO) -->
+    <div class="flex items-center gap-2 shrink-0">
+      <div class="hidden sm:flex items-center gap-1.5 bg-[#0b1329] border border-emerald-500/40 text-emerald-400 px-3 py-1.5 rounded-full text-[11px] font-bold">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>PRECIO EN VIVO • MERCADO REAL XAU/USD</span>
       </div>
-      <span class="border border-emerald-500/50 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">En vivo</span>
-      <button onclick="actualizarCotizacion()" class="text-zinc-400 hover:text-white text-xs p-1" title="Actualizar"><i class="fa-solid fa-arrows-rotate"></i></button>
+
+      <div class="flex items-center gap-1.5 border border-emerald-500/60 text-emerald-400 px-2.5 py-1 rounded text-xs font-bold bg-emerald-950/20">
+        <i class="fa-solid fa-signal text-[10px]"></i>
+        <span>En vivo</span>
+      </div>
+
+      <button onclick="actualizarDatosManual()" class="w-8 h-8 rounded-full bg-[#0d1527] border border-blue-900/50 flex items-center justify-center text-zinc-400 hover:text-amber-400 transition-all text-xs" title="Actualizar">
+        <i class="fa-solid fa-arrows-rotate"></i>
+      </button>
+      <button onclick="toast('ℹ️ Fuente en tiempo real: Mercado Spot Internacional (LBMA/Coinbase)');" class="w-8 h-8 rounded-full bg-[#0d1527] border border-blue-900/50 flex items-center justify-center text-zinc-400 hover:text-white transition-all text-xs" title="Información">
+        <i class="fa-solid fa-info"></i>
+      </button>
     </div>
+
   </div>
 </header>
 
-<main class="max-w-6xl mx-auto px-3 py-4 w-full space-y-4 flex-1">
+<main class="max-w-7xl mx-auto px-3 sm:px-6 py-4 w-full space-y-4 flex-1">
 
-  <!-- BANNER DE COTIZACIÓN PRINCIPAL -->
-  <div class="card-navy rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col md:flex-row justify-between md:items-center gap-3">
+  <!-- BANNER PRINCIPAL DE COTIZACIÓN -->
+  <div class="card-navy rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col md:flex-row justify-between md:items-center gap-4">
     <div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 flex-wrap">
         <span class="text-xs font-bold text-zinc-300">XAUUSD • ORO / DÓLAR ESTADOUNIDENSE</span>
-        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold">
-          <span class="w-1.5 h-1.5 inline-block rounded-full bg-emerald-400 mr-1 animate-pulse"></span> PRECIO ORIGINAL EN VIVO
+        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> PRECIO ORIGINAL EN VIVO
         </span>
       </div>
+
       <div class="flex items-baseline gap-3 mt-1.5">
-        <h2 class="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" id="live-price">$3,895.80</h2>
-        <span class="text-xs font-black text-rose-500 flex items-center gap-1 font-mono">
-          <i class="fa-solid fa-arrow-down"></i> -2.76% (24h)
+        <h2 class="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" id="live-gold-val">$3,892.38</h2>
+        <span class="text-xs sm:text-sm font-black text-rose-500 flex items-center gap-1 font-mono">
+          <i class="fa-solid fa-arrow-down text-xs"></i> -2.66% (24h)
         </span>
       </div>
+
       <div class="flex flex-wrap items-center gap-4 text-[11px] text-zinc-400 mt-2 font-mono">
-        <div>24h Máx: <b class="text-zinc-200">$3942.63</b></div>
-        <div>24h Mín: <b class="text-zinc-200">$3849.13</b></div>
+        <div>24h Máx: <b class="text-zinc-200" id="val-max">$3942.63</b></div>
+        <div>24h Mín: <b class="text-zinc-200" id="val-min">$3849.13</b></div>
         <div>Spread: <b class="text-zinc-200">0.08 USD</b></div>
       </div>
     </div>
 
-    <div class="text-left md:text-right text-[10px] text-zinc-400 space-y-0.5 border-t md:border-t-0 pt-2 md:pt-0 border-blue-900/40">
-      <div class="font-bold text-amber-300 flex items-center md:justify-end gap-1">
-        <i class="fa-solid fa-shield-halved text-xs text-amber-400"></i> Cotización Original de Mercado XAU/USD
+    <div class="text-left md:text-right text-[11px] text-zinc-400 space-y-0.5 border-t md:border-t-0 pt-3 md:pt-0 border-blue-900/40">
+      <div class="font-bold text-amber-300 flex items-center md:justify-end gap-1.5 text-xs">
+        <i class="fa-solid fa-shield-halved text-amber-400"></i> Cotización Original de Mercado XAU/USD
       </div>
       <div>Fuente: <span class="text-zinc-200">Mercado Spot Internacional (Coinbase/LBMA)</span></div>
-      <div>Actualización: <span class="text-zinc-200 font-mono" id="live-clock">19:54:44</span></div>
+      <div>Actualización: <span class="text-zinc-200 font-mono font-bold" id="live-clock">21:49:22</span></div>
     </div>
   </div>
 
-  <!-- 4 PLANES DE SUSCRIPCIÓN -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+  <!-- LOS 4 PLANES DE SUSCRIPCIÓN (EXACTOS DEL VIDEO) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
     
     <!-- 1. PLAN INICIAL -->
     <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
       <div>
         <div class="flex justify-between items-center">
-          <span class="text-xs font-black text-zinc-200">PLAN INICIAL</span>
+          <span class="text-xs font-black text-zinc-200 tracking-wide">PLAN INICIAL</span>
           <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
         </div>
-        <div class="mt-2">
+        <div class="mt-2.5">
           <div class="text-2xl font-black text-amber-400 font-mono">5 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
           <p class="text-[11px] text-zinc-400 mt-1">Para comenzar con operaciones esenciales.</p>
         </div>
-        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
+        <ul class="text-[11px] text-zinc-300 space-y-2 mt-3.5 pt-3 border-t border-blue-900/40">
           <li class="flex items-center gap-1.5">• 1 operación diaria</li>
           <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
           <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
         </ul>
       </div>
-      <button onclick="abrirModalPago('PLAN INICIAL', 5)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
+      <button onclick="abrirModalSuscripcion('PLAN INICIAL', 5, '1 operación diaria')" class="gold-outline w-full py-2.5 text-xs font-black mt-4 active:scale-95 transition-all">
         ELEGIR INICIAL
       </button>
     </div>
@@ -125,107 +186,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #070b14; color:
     <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
       <div>
         <div class="flex justify-between items-center">
-          <span class="text-xs font-black text-zinc-200">PLAN STANDARD</span>
+          <span class="text-xs font-black text-zinc-200 tracking-wide">PLAN STANDARD</span>
           <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
         </div>
-        <div class="mt-2">
+        <div class="mt-2.5">
           <div class="text-2xl font-black text-amber-400 font-mono">10 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
-          <p class="text-[11px] text-zinc-400 mt-1">Para consultas frecuentes y seguimiento activo.</p>
-        </div>
-        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
-          <li class="flex items-center gap-1.5">• 3 operaciones diarias</li>
-          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
-          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
-        </ul>
-      </div>
-      <button onclick="abrirModalPago('PLAN STANDARD', 10)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
-        ELEGIR STANDARD
-      </button>
-    </div>
-
-    <!-- 3. PLAN PRO -->
-    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
-      <div>
-        <div class="flex justify-between items-center">
-          <span class="text-xs font-black text-zinc-200">PLAN PRO</span>
-          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
-        </div>
-        <div class="mt-2">
-          <div class="text-2xl font-black text-amber-400 font-mono">15 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
-          <p class="text-[11px] text-zinc-400 mt-1">Para un seguimiento más amplio con señales en vivo.</p>
-        </div>
-        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
-          <li class="flex items-center gap-1.5">• 7 operaciones diarias</li>
-          <li class="flex items-center gap-1.5">• Entrada al canal de Telegram VIP</li>
-          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
-          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
-        </ul>
-      </div>
-      <button onclick="abrirModalPago('PLAN PRO', 15)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
-        ELEGIR PRO
-      </button>
-    </div>
-
-    <!-- 4. PLAN ULTRA -->
-    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
-      <div>
-        <div class="flex justify-between items-center">
-          <span class="text-xs font-black text-zinc-200">PLAN ULTRA</span>
-          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
-        </div>
-        <div class="mt-2">
-          <div class="text-2xl font-black text-amber-400 font-mono">25 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
-          <p class="text-[11px] text-zinc-400 mt-1">Comunidad exclusiva con soporte directo multicanal.</p>
-        </div>
-        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
-          <li class="flex items-center gap-1.5">• 7 operaciones diarias</li>
-          <li class="flex items-center gap-1.5">• Entrada al canal de Telegram VIP</li>
-          <li class="flex items-center gap-1.5">• Entrada al grupo exclusivo de WhatsApp</li>
-          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
-          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
-        </ul>
-      </div>
-      <button onclick="abrirModalPago('PLAN ULTRA', 25)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
-        ELEGIR ULTRA
-      </button>
-    </div>
-  </div>
-
-  <!-- CAJA: PLANES BLOQUEADOS & DESBLOQUEO USDT BEP-20 -->
-  <div class="card-navy rounded-2xl p-4 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-    <div class="space-y-1.5 max-w-2xl">
-      <div class="flex items-center gap-2">
-        <span class="text-amber-400 text-xs font-black flex items-center gap-1.5">
-          <i class="fa-solid fa-lock"></i> PLANES BLOQUEADOS • Requiere Confirmación de Pago USDT-BEP20
-        </span>
-        <span class="bg-blue-950 text-blue-300 border border-blue-800 text-[10px] px-2 py-0.5 rounded-full font-bold">
-          0 operaciones disponibles
-        </span>
-      </div>
-      <p class="text-[11px] text-zinc-300 leading-relaxed">
-        Selecciona un plan, completa tus datos personales y transfiere en USDT-BEP20 a <b class="text-amber-400 font-mono select-all">0x4ec021c9900178c6e70492a1171167f3495a269d</b> para desbloquear tu acceso.
-      </p>
-      <p class="text-[10px] text-zinc-400">
-        Seguridad: El desbloqueo es personal y se activa inmediatamente tras ingresar tus datos y confirmar el pago.
-      </p>
-    </div>
-
-    <button onclick="abrirModalPago('PLAN STANDARD', 10)" class="gold-btn px-4 py-2.5 text-xs shadow-lg flex items-center gap-1.5 shrink-0 active:scale-95">
-      <i class="fa-solid fa-lock-open text-xs"></i> DESBLOQUEAR PLAN
-    </button>
-  </div>
-
-  <!-- SECCIÓN: GRÁFICO DE VELAS -->
-  <div class="card-navy rounded-2xl p-4 shadow-xl space-y-3">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-      <div>
-        <h3 class="text-xs font-black text-white">Gráfico de velas</h3>
-        <p class="text-[10px] text-zinc-400">XAUUSD • <span id="label-interval">1 minuto</span></p>
-      </div>
-
-      <!-- TEMPORALIDADES -->
-      <div class="flex items-center bg-[#070b14] p-1 rounded-xl border border-blue-900/40 text-xs font-bold gap-1">
-        <button onclick="cambiarTemporalidad('1', '1 minuto')" id="btn-t-1" class="px-2.5 py-1 rounded-lg bg-amber-400 text-zinc-950 font-bold">1m</button>
-        <button onclick="cambiarTemporalidad('5', '5 minutos')" id="btn-t-5" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white font-bold">5m</button>
-        <button onclick="cambiarTemporalidad('15', '15 minutos')" id="btn-t-15" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white font-bold">15m</button>
-        <button onclick="cambiarTemporalidad('60', '1 hora')" id="btn-t-60" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white font-bo
+      
