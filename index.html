@@ -129,3 +129,79 @@ class="w-full h-full border-0">
 <div class="grid grid-cols-2 gap-2">
 <div>
 <label class="block text-[10px] text-zinc-400 mb-1">Dirección Prevista</label>
+
+Fran rokefeller:
+<select id="analisis-direccion" class="inpt cursor-pointer">
+<option value="COMPRA (LONG) ↗">COMPRA (LONG) ↗</option>
+<option value="VENTA (SHORT) ↘">VENTA (SHORT) ↘</option>
+</select>
+</div>
+<div>
+<label class="block text-[10px] text-zinc-400 mb-1">Precio de Entrada Sugerido</label>
+<input type="number" step="0.1" id="analisis-precio" required placeholder="2745.00" class="inpt">
+</div>
+</div>
+<div>
+<label class="block text-[10px] text-zinc-400 mb-1">Notas y Razonamiento Técnico</label>
+<textarea id="analisis-notas" rows="2" placeholder="Ej. Doble suelo en temporalidad 15M con divergencia en RSI..." class="inpt"></textarea>
+</div>
+<button type="submit" class="w-full gold-gradient text-zinc-950 font-black py-2 rounded-xl text-xs active:scale-95 shadow">
+<i class="fa-solid fa-floppy-disk mr-1"></i> Guardar en Base de Datos
+</button>
+</form>
+</div>
+
+<!-- LISTA DE ANÁLISIS GUARDADOS EN TIEMPO REAL -->
+<div class="card-dark rounded-2xl p-4 space-y-3">
+<div class="flex justify-between items-center">
+<h3 class="text-xs font-black text-white flex items-center gap-1.5">
+<i class="fa-solid fa-list-check text-emerald-400"></i> Historial de Análisis Guardados
+</h3>
+<span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">Firestore Sync</span>
+</div>
+<div id="lista-analisis" class="space-y-2 max-h-72 overflow-y-auto text-xs pr-1">
+<div class="text-center text-zinc-500 text-[11px] py-8">Cargando análisis desde Firebase...</div>
+</div>
+</div>
+</div>
+</main>
+
+<!-- MODAL AUTENTICACIÓN FIREBASE -->
+<div id="modal-auth" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-3">
+<div class="bg-[#0e121d] border border-amber-500/40 rounded-3xl max-w-xs w-full p-5 shadow-2xl relative">
+<button onclick="cerrarModalAuth()" class="absolute top-3.5 right-3.5 text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+<div class="flex border-b border-zinc-800 mb-3">
+<button id="tab-login" onclick="tabAuth('login')" class="flex-1 pb-2 text-xs font-black text-amber-400 border-b-2 border-amber-500">Ingresar</button>
+<button id="tab-reg" onclick="tabAuth('reg')" class="flex-1 pb-2 text-xs font-bold text-zinc-400">Crear Cuenta</button>
+</div>
+
+<form id="form-auth" onsubmit="procesarAuth(event)" class="space-y-2.5">
+<div id="auth-alias-container" class="hidden">
+<label class="block text-[10px] text-zinc-400 mb-0.5">Nombre o Alias</label>
+<input type="text" id="auth-nombre" placeholder="Ej. Trader Gold" class="inpt">
+</div>
+<div>
+<label class="block text-[10px] text-zinc-400 mb-0.5">Correo Electrónico</label>
+<input type="email" id="auth-email" required placeholder="tu@correo.com" class="inpt">
+</div>
+<div>
+<label class="block text-[10px] text-zinc-400 mb-0.5">Contraseña</label>
+<input type="password" id="auth-pass" required placeholder="••••••••" class="inpt">
+</div>
+<button type="submit" id="auth-submit-btn" class="w-full gold-gradient text-zinc-950 font-black py-2 rounded-xl text-xs shadow mt-2">
+Ingresar a mi Cuenta
+</button>
+<button type="button" onclick="loginDemoDirecto()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 py-1.5 rounded-xl text-xs font-bold">
+Acceso Rápido Demo ⚡
+</button>
+</form>
+</div>
+</div>
+
+<footer class="mt-8 border-t border-zinc-900 py-4 px-3 text-center text-[10px] text-zinc-500">
+<div><b>Gold Analyzer Pro</b> • Plataforma Oficial de Análisis XAU/USD con Firebase Firestore</div>
+</footer>
+
+<!-- SCRIPT OFICIAL CONECTADO A TU FIREBASE -->
+<script>
+const $ = (id) => document.getElementById(id);
