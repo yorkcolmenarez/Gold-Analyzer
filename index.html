@@ -3,206 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Gold Analyzer Pro - Análisis Técnico XAU/USD & Firebase</title>
-<meta name="description" content="Plataforma profesional de análisis técnico, gráficos en tiempo real y base de datos de alertas para Oro (XAU/USD).">
+<title>GOLD ANALYZER - Análisis técnico del oro • Indicador</title>
+<meta name="description" content="Análisis técnico del oro XAU/USD con precio original en vivo y planes de suscripción.">
+<meta name="theme-color" content="#0a0f1d">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- SDK OFICIAL DE FIREBASE COMPATIBLE PARA NAVEGADOR -->
+<!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
-body { font-family: 'Plus Jakarta Sans', sans-serif; background: #07090e; color: #f1f5f9; }
-.gold-gradient { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); }
-.gold-text { background: linear-gradient(to right, #fde047, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.card-dark { background: #0d111a; border: 1px solid rgba(245, 158, 11, 0.2); }
-.inpt { width: 100%; background: #090c14; border: 1px solid #27272a; border-radius: 12px; padding: 8px 12px; font-size: 12px; color: #fff; outline: none; }
-.inpt:focus { border-color: #f59e0b; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: #070b14; color: #f1f5f9; }
+.card-navy { background: #0c1222; border: 1px solid rgba(30, 58, 138, 0.4); }
+.card-navy:hover { border-color: rgba(245, 158, 11, 0.5); }
+.gold-btn { background: #facc15; color: #0f172a; font-weight: 800; border-radius: 10px; }
+.gold-btn:hover { background: #eab308; }
+.gold-outline { border: 1px solid #facc15; color: #facc15; font-weight: 800; border-radius: 10px; }
+.gold-outline:hover { background: #facc15; color: #0f172a; }
+.inpt { width: 100%; background: #070b14; border: 1px solid #1e293b; border-radius: 10px; padding: 8px 12px; font-size: 12px; color: #fff; outline: none; }
+.inpt:focus { border-color: #facc15; }
 </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="min-h-screen bg-[#070b14] text-slate-100 flex flex-col justify-between">
 
-<!-- ALERTA / TOAST GLOBAL -->
-<div id="toast-alerta" class="fixed top-3 left-1/2 -translate-x-1/2 z-50 hidden bg-[#141824] border border-amber-500/80 text-amber-200 text-xs px-4 py-2.5 rounded-2xl shadow-2xl backdrop-blur max-w-sm w-11/12 flex items-center justify-between">
-  <span id="toast-msg">Notificación</span>
+<!-- ALERTA / TOAST -->
+<div id="toast" class="fixed top-3 left-1/2 -translate-x-1/2 z-50 hidden bg-[#0f172a] border border-amber-400 text-amber-200 text-xs px-4 py-2.5 rounded-2xl shadow-2xl backdrop-blur max-w-sm w-11/12 flex items-center justify-between">
+  <span id="toast-text">Notificación</span>
   <button onclick="this.parentElement.classList.add('hidden')"><i class="fa-solid fa-xmark text-zinc-400"></i></button>
 </div>
 
-<!-- CABECERA PRINCIPAL -->
-<header class="sticky top-0 z-40 bg-[#0a0d14]/95 backdrop-blur border-b border-amber-500/20 px-3 py-2.5">
+<!-- CABECERA EXACTA A LA FOTO 2 -->
+<header class="sticky top-0 z-40 bg-[#090e1a]/95 backdrop-blur border-b border-blue-900/40 px-3 py-2">
   <div class="max-w-6xl mx-auto flex items-center justify-between">
     <div class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-xl gold-gradient flex items-center justify-center text-zinc-950 font-black shadow-lg shadow-amber-500/20">
+      <div class="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-400 flex items-center justify-center text-amber-400">
         <i class="fa-solid fa-coins text-sm"></i>
       </div>
       <div>
-        <h1 class="text-sm font-black text-white flex items-center gap-1.5 leading-none">
-          GOLD <span class="gold-text">ANALYZER</span> <span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1 py-0.2 rounded font-bold">PRO</span>
-        </h1>
-        <p class="text-[9px] text-zinc-400 mt-0.5">XAU/USD • Firebase Conectado</p>
+        <h1 class="text-sm font-black text-white tracking-wide leading-none">GOLD ANALYZER</h1>
+        <p class="text-[9px] text-zinc-400 mt-0.5">Análisis técnico del oro • Indicador</p>
       </div>
     </div>
     
-    <!-- ACCESO USUARIO / AUTH -->
-    <div class="flex items-center gap-2 text-xs">
-      <div id="auth-guest" class="flex items-center gap-1.5">
-        <button onclick="abrirModalAuth('login')" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-bold px-2.5 py-1 rounded-lg text-xs">Ingresar</button>
-        <button onclick="abrirModalAuth('reg')" class="gold-gradient text-zinc-950 font-black px-2.5 py-1 rounded-lg text-xs shadow">Crear Cuenta</button>
+    <div class="flex items-center gap-2">
+      <div class="hidden sm:flex items-center gap-1.5 bg-[#0b1329] border border-emerald-500/40 text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>PRECIO EN VIVO • MERCADO REAL XAU/USD</span>
       </div>
-
-      <div id="auth-logged" class="hidden items-center gap-1.5">
-        <span class="inline-flex items-center gap-1 bg-amber-500/10 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-xl text-[11px] font-bold">
-          <i class="fa-solid fa-user-check text-emerald-400"></i> <span id="logged-user-name">Usuario</span>
-        </span>
-        <button onclick="cerrarSesion()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-red-400 px-2 py-1 rounded-lg text-xs border border-zinc-800" title="Cerrar Sesión">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        </button>
-      </div>
+      <span class="border border-emerald-500/50 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">En vivo</span>
+      <button onclick="actualizarCotizacion()" class="text-zinc-400 hover:text-white text-xs p-1" title="Actualizar"><i class="fa-solid fa-arrows-rotate"></i></button>
+      <button onclick="mostrarInfo()" class="text-zinc-400 hover:text-white text-xs p-1" title="Info"><i class="fa-solid fa-circle-info"></i></button>
     </div>
   </div>
 </header>
 
 <main class="max-w-6xl mx-auto px-3 py-4 w-full space-y-4 flex-1">
-  
-  <!-- BARRA DE PRECIOS XAU/USD -->
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-    <div class="card-dark rounded-xl p-3">
-      <div class="text-[10px] text-zinc-400 font-bold">XAU/USD (Oro al Contado)</div>
-      <div class="text-base font-black text-amber-300 mt-0.5 font-mono">2,746.40</div>
-      <div class="text-[10px] text-emerald-400 font-bold">+0.72% (En Vivo)</div>
+
+  <!-- BANNER DE COTIZACIÓN PRINCIPAL -->
+  <div class="card-navy rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col md:flex-row justify-between md:items-center gap-3">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-zinc-300">XAUUSD • ORO / DÓLAR ESTADOUNIDENSE</span>
+        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold">
+          <span class="w-1.5 h-1.5 inline-block rounded-full bg-emerald-400 mr-1 animate-pulse"></span> PRECIO ORIGINAL EN VIVO
+        </span>
+      </div>
+      <div class="flex items-baseline gap-3 mt-1.5">
+        <h2 class="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" id="live-price">$3,895.80</h2>
+        <span class="text-xs font-black text-rose-500 flex items-center gap-1 font-mono">
+          <i class="fa-solid fa-arrow-down"></i> -2.76% (24h)
+        </span>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 text-[11px] text-zinc-400 mt-2 font-mono">
+        <div>24h Máx: <b class="text-zinc-200">$3942.63</b></div>
+        <div>24h Mín: <b class="text-zinc-200">$3849.13</b></div>
+        <div>Spread: <b class="text-zinc-200">0.08 USD</b></div>
+      </div>
     </div>
-    <div class="card-dark rounded-xl p-3">
-      <div class="text-[10px] text-zinc-400 font-bold">Tendencia 1H / 4H</div>
-      <div class="text-base font-black text-emerald-400 mt-0.5">FUERTE ALCISTA ↗</div>
-      <div class="text-[10px] text-zinc-400">RSI: 61.2 (Impulso Comprador)</div>
-    </div>
-    <div class="card-dark rounded-xl p-3">
-      <div class="text-[10px] text-zinc-400 font-bold">Soporte Clave</div>
-      <div class="text-base font-black text-sky-400 mt-0.5 font-mono">2,734.00</div>
-      <div class="text-[10px] text-zinc-400">Zona de Rebote</div>
-    </div>
-    <div class="card-dark rounded-xl p-3">
-      <div class="text-[10px] text-zinc-400 font-bold">Resistencia Clave</div>
-      <div class="text-base font-black text-rose-400 mt-0.5 font-mono">2,758.50</div>
-      <div class="text-[10px] text-zinc-400">Objetivo del Día</div>
+
+    <div class="text-left md:text-right text-[10px] text-zinc-400 space-y-0.5 border-t md:border-t-0 pt-2 md:pt-0 border-blue-900/40">
+      <div class="font-bold text-amber-300">Cotización Original de Mercado XAU/USD</div>
+      <div>Fuente: <span class="text-zinc-200">Mercado Spot Internacional (Coinbase/LBMA)</span></div>
+      <div>Actualización: <span class="text-zinc-200 font-mono" id="live-clock">19:54:44</span></div>
     </div>
   </div>
 
-  <!-- GRÁFICO EN TIEMPO REAL TRADINGVIEW -->
-  <div class="card-dark rounded-2xl overflow-hidden shadow-2xl p-2 space-y-2">
-    <div class="flex items-center justify-between px-2 pt-1">
-      <h2 class="text-xs font-black text-white flex items-center gap-1.5">
-        <i class="fa-solid fa-chart-candlestick text-amber-400"></i> Gráfica Profesional en Tiempo Real (XAU/USD)
-      </h2>
-      <span class="text-[10px] text-emerald-400 font-mono font-bold"><i class="fa-solid fa-wifi mr-1"></i> Conectado</span>
-    </div>
+  <!-- 4 PLANES DE SUSCRIPCIÓN (EXACTO A LA FOTO 2) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
     
-    <div class="h-[480px] w-full rounded-xl overflow-hidden bg-black">
+    <!-- 1. PLAN INICIAL -->
+    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
+      <div>
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-black text-zinc-200">PLAN INICIAL</span>
+          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
+        </div>
+        <div class="mt-2">
+          <div class="text-2xl font-black text-amber-400 font-mono">5 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
+          <p class="text-[11px] text-zinc-400 mt-1">Para comenzar con operaciones esenciales.</p>
+        </div>
+        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
+          <li class="flex items-center gap-1.5">• 1 operación diaria</li>
+          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
+          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
+        </ul>
+      </div>
+      <button onclick="abrirModalPago('PLAN INICIAL', 5)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
+        ELEGIR INICIAL
+      </button>
+    </div>
+
+    <!-- 2. PLAN STANDARD -->
+    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
+      <div>
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-black text-zinc-200">PLAN STANDARD</span>
+          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
+        </div>
+        <div class="mt-2">
+          <div class="text-2xl font-black text-amber-400 font-mono">10 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
+          <p class="text-[11px] text-zinc-400 mt-1">Para consultas frecuentes y seguimiento activo.</p>
+        </div>
+        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
+          <li class="flex items-center gap-1.5">• 3 operaciones diarias</li>
+          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
+          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
+        </ul>
+      </div>
+      <button onclick="abrirModalPago('PLAN STANDARD', 10)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
+        ELEGIR STANDARD
+      </button>
+    </div>
+
+    <!-- 3. PLAN PRO -->
+    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
+      <div>
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-black text-zinc-200">PLAN PRO</span>
+          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
+        </div>
+        <div class="mt-2">
+          <div class="text-2xl font-black text-amber-400 font-mono">15 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
+          <p class="text-[11px] text-zinc-400 mt-1">Para un seguimiento más amplio con señales en vivo.</p>
+        </div>
+        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
+          <li class="flex items-center gap-1.5">• 7 operaciones diarias</li>
+          <li class="flex items-center gap-1.5">• Entrada al canal de Telegram VIP</li>
+          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
+          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
+        </ul>
+      </div>
+      <button onclick="abrirModalPago('PLAN PRO', 15)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
+        ELEGIR PRO
+      </button>
+    </div>
+
+    <!-- 4. PLAN ULTRA -->
+    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
+      <div>
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-black text-zinc-200">PLAN ULTRA</span>
+          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
+        </div>
+        <div class="mt-2">
+          <div class="text-2xl font-black text-amber-400 font-mono">25 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
+          <p class="text-[11px] text-zinc-400 mt-1">Comunidad exclusiva con soporte directo multicanal.</p>
+        </div>
+        <ul class="text-[11px] text-zinc-300 space-y-1.5 mt-3 pt-3 border-t border-blue-900/40">
+          <li class="flex items-center gap-1.5">• 7 operaciones diarias</li>
+          <li class="flex items-center gap-1.5">• Entrada al canal de Telegram VIP</li>
+          <li class="flex items-center gap-1.5">• Entrada al grupo exclusivo de WhatsApp</li>
+          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
+          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
+        </ul>
+      </div>
+      <button onclick="abrirModalPago('PLAN ULTRA', 25)" class="gold-outline w-full py-2 text-xs font-bold mt-4 active:scale-95 transition-all">
+        ELEGIR ULTRA
+      </button>
+    </div>
+  </div>
+
+  <!-- CAJA INFORMATIVA: PLANES BLOQUEADOS & DESBLOQUEO USDT BEP-20 -->
+  <div class="card-navy rounded-2xl p-4 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div class="space-y-1.5 max-w-2xl">
+      <div class="flex items-center gap-2">
+        <span class="text-amber-400 text-xs font-black flex items-center gap-1.5">
+          <i class="fa-solid fa-lock"></i> PLANES BLOQUEADOS • Requiere Confirmación de Pago USDT-BEP20
+        </span>
+        <span class="bg-blue-950 text-blue-300 border border-blue-800 text-[10px] px-2 py-0.5 rounded-full font-bold">
+          0 operaciones disponibles
+        </span>
+      </div>
+      <p class="text-[11px] text-zinc-300 leading-relaxed">
+        Selecciona un plan, completa tus datos personales y transfiere en USDT-BEP20 a <b class="text-amber-400 font-mono select-all">0x4ec021c9900178c6e70492a1171167f3495a269d</b> para desbloquear tu acceso.
+      </p>
+      <p class="text-[10px] text-zinc-400">
+        Seguridad: El desbloqueo es personal y se activa inmediatamente tras ingresar tus datos y confirmar el pago.
+      </p>
+    </div>
+
+    <button onclick="abrirModalPago('PLAN STANDARD', 10)" class="gold-btn px-4 py-2.5 text-xs shadow-lg flex items-center gap-1.5 shrink-0 active:scale-95">
+      <i class="fa-solid fa-lock-open text-xs"></i> DESBLOQUEAR PLAN
+    </button>
+  </div>
+
+  <!-- SECCIÓN: GRÁFICO DE VELAS CON TEMPORALIDADES (1m, 5m, 15m, 1h) -->
+  <div class="card-navy rounded-2xl p-4 shadow-xl space-y-3">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+      <div>
+        <h3 class="text-xs font-black text-white">Gráfico de velas</h3>
+        <p class="text-[10px] text-zinc-400">XAUUSD • <span id="label-interval">1 minuto</span></p>
+      </div>
+
+      <!-- BOTONES DE TEMPORALIDADES -->
+      <div class="flex items-center bg-[#070b14] p-1 rounded-xl border border-blue-900/40 text-xs font-bold gap-1">
+        <button onclick="cambiarTemporalidad('1', '1 minuto')" id="btn-t-1" class="px-2.5 py-1 rounded-lg bg-amber-400 text-zinc-950">1m</button>
+        <button onclick="cambiarTemporalidad('5', '5 minutos')" id="btn-t-5" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white">5m</button>
+        <button onclick="cambiarTemporalidad('15', '15 minutos')" id="btn-t-15" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white">15m</button>
+        <button onclick="cambiarTemporalidad('60', '1 hora')" id="btn-t-60" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white">1h</button>
+      </div>
+    </div>
+
+    <!-- IFRAME TRADINGVIEW EN VIVO -->
+    <div class="h-[460px] w-full rounded-xl overflow-hidden bg-black border border-blue-900/30">
       <iframe 
-        src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=OANDA%3AXAUUSD&interval=60&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=es"
+        id="tradingview-iframe"
+        src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=OANDA%3AXAUUSD&interval=1&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=es"
         class="w-full h-full border-0">
       </iframe>
     </div>
   </div>
-
-  <!-- SECCIÓN FIRESTORE: GUARDAR ANÁLISIS & ALERTAS DE ORO -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <!-- PANEL PARA GUARDAR ANÁLISIS EN LA BASE DE DATOS -->
-    <div class="card-dark rounded-2xl p-4 space-y-3">
-      <div class="flex justify-between items-center">
-        <h3 class="text-xs font-black text-white flex items-center gap-1.5">
-          <i class="fa-solid fa-cloud-arrow-up text-amber-400"></i> Guardar Análisis en Firebase Firestore
-        </h3>
-        <span class="text-[9px] text-amber-400/80 font-mono">BD: gold-analyzer-86e38</span>
-      </div>
-
-      <form onsubmit="guardarAnalisisFirestore(event)" class="space-y-2 text-xs">
-        <div>
-          <label class="block text-[10px] text-zinc-400 mb-1">Título de tu Análisis / Operación</label>
-          <input type="text" id="analisis-titulo" required placeholder="Ej. Compra en Soporte 2,735.00 con TP en 2,755.00" class="inpt">
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[10px] text-zinc-400 mb-1">Dirección Prevista</label>
-            <select id="analisis-direccion" class="inpt cursor-pointer">
-              <option value="COMPRA (LONG) ↗">COMPRA (LONG) ↗</option>
-              <option value="VENTA (SHORT) ↘">VENTA (SHORT) ↘</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-[10px] text-zinc-400 mb-1">Precio de Entrada Sugerido</label>
-            <input type="number" step="0.1" id="analisis-precio" required placeholder="2745.00" class="inpt">
-          </div>
-        </div>
-        <div>
-          <label class="block text-[10px] text-zinc-400 mb-1">Notas y Razonamiento Técnico</label>
-          <textarea id="analisis-notas" rows="2" placeholder="Ej. Doble suelo en temporalidad 15M con divergencia en RSI..." class="inpt"></textarea>
-        </div>
-        <button type="submit" class="w-full gold-gradient text-zinc-950 font-black py-2 rounded-xl text-xs active:scale-95 shadow">
-          <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar en Base de Datos
-        </button>
-      </form>
-    </div>
-
-    <!-- LISTA DE ANÁLISIS GUARDADOS EN TIEMPO REAL -->
-    <div class="card-dark rounded-2xl p-4 space-y-3">
-      <div class="flex justify-between items-center">
-        <h3 class="text-xs font-black text-white flex items-center gap-1.5">
-          <i class="fa-solid fa-list-check text-emerald-400"></i> Historial de Análisis Guardados
-        </h3>
-        <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">Firestore Sync</span>
-      </div>
-      <div id="lista-analisis" class="space-y-2 max-h-72 overflow-y-auto text-xs pr-1">
-        <div class="text-center text-zinc-500 text-[11px] py-8">Cargando análisis desde Firebase...</div>
-      </div>
-    </div>
-  </div>
 </main>
 
-<!-- MODAL AUTENTICACIÓN FIREBASE -->
-<div id="modal-auth" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-3">
-  <div class="bg-[#0e121d] border border-amber-500/40 rounded-3xl max-w-xs w-full p-5 shadow-2xl relative">
-    <button onclick="cerrarModalAuth()" class="absolute top-3.5 right-3.5 text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-    <div class="flex border-b border-zinc-800 mb-3">
-      <button id="tab-login" onclick="tabAuth('login')" class="flex-1 pb-2 text-xs font-black text-amber-400 border-b-2 border-amber-500">Ingresar</button>
-      <button id="tab-reg" onclick="tabAuth('reg')" class="flex-1 pb-2 text-xs font-bold text-zinc-400">Crear Cuenta</button>
+<!-- MODAL PARA CONFIRMAR PAGO Y DESBLOQUEAR PLAN -->
+<div id="modal-pago" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-3">
+  <div class="bg-[#0c1222] border border-amber-400/50 rounded-2xl max-w-sm w-full p-5 shadow-2xl relative">
+    <button onclick="cerrarModalPago()" class="absolute top-3 right-3 text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+    
+    <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-400 text-amber-400 mx-auto flex items-center justify-center text-lg mb-2">
+      <i class="fa-solid fa-shield-halved"></i>
     </div>
 
-    <form id="form-auth" onsubmit="procesarAuth(event)" class="space-y-2.5">
-      <div id="auth-alias-container" class="hidden">
-        <label class="block text-[10px] text-zinc-400 mb-0.5">Nombre o Alias</label>
-        <input type="text" id="auth-nombre" placeholder="Ej. Trader Gold" class="inpt">
+    <h3 class="text-sm font-black text-center text-white">Desbloquear Acceso al Indicador</h3>
+    <p class="text-[11px] text-center text-zinc-400 mt-0.5">Plan Seleccionado: <b id="modal-plan-nombre" class="text-amber-400">PLAN STANDARD</b> (<span id="modal-plan-precio" class="font-mono text-white">10 USDT</span>)</p>
+
+    <div class="mt-3 bg-[#070b14] p-2.5 rounded-xl border border-blue-900/50 text-left space-y-1">
+      <div class="text-[9px] text-zinc-400 flex justify-between">
+        <span>Billetera Oficial USDT (BEP-20):</span>
+        <span class="text-emerald-400 font-bold">Red BSC</span>
       </div>
-      <div>
-        <label class="block text-[10px] text-zinc-400 mb-0.5">Correo Electrónico</label>
-        <input type="email" id="auth-email" required placeholder="tu@correo.com" class="inpt">
+      <div class="font-mono text-[10px] text-amber-300 break-all select-all bg-black/60 p-2 rounded border border-zinc-800" id="wallet-addr">
+        0x4ec021c9900178c6e70492a1171167f3495a269d
       </div>
-      <div>
-        <label class="block text-[10px] text-zinc-400 mb-0.5">Contraseña</label>
-        <input type="password" id="auth-pass" required placeholder="••••••••" class="inpt">
-      </div>
-      <button type="submit" id="auth-submit-btn" class="w-full gold-gradient text-zinc-950 font-black py-2 rounded-xl text-xs shadow mt-2">
-        Ingresar a mi Cuenta
+      <button onclick="copiarBilletera()" class="mt-1.5 w-full bg-zinc-800 hover:bg-zinc-700 text-amber-300 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95">
+        <i class="fa-regular fa-copy"></i> Copiar Dirección BEP-20
       </button>
-      <button type="button" onclick="loginDemoDirecto()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 py-1.5 rounded-xl text-xs font-bold">
-        Acceso Rápido Demo ⚡
+    </div>
+
+    <form onsubmit="confirmarPagoDesbloqueo(event)" class="mt-3 space-y-2 text-xs">
+      <div>
+        <label class="block text-[10px] text-zinc-400 mb-0.5">Tu Nombre o Alias</label>
+        <input type="text" id="pago-nombre" required placeholder="Ej. Carlos Trader" class="inpt">
+      </div>
+      <div>
+        <label class="block text-[10px] text-zinc-400 mb-0.5">Tu Correo o Usuario Telegram</label>
+        <input type="text" id="pago-contacto" required placeholder="tu@correo.com o @usuario" class="inpt">
+      </div>
+      <div>
+        <label class="block text-[10px] text-zinc-400 mb-0.5">Hash / ID de la Transacción</label>
+        <input type="text" id="pago-txid" required placeholder="Ej. 0x8a9f... o Ref del envío" class="inpt">
+      </div>
+      <button type="submit" class="gold-btn w-full py-2.5 text-xs shadow-lg mt-2 active:scale-95">
+        CONFIRMAR PAGO Y ACTIVAR ACCESO
       </button>
     </form>
   </div>
 </div>
 
-<footer class="mt-8 border-t border-zinc-900 py-4 px-3 text-center text-[10px] text-zinc-500">
-  <div><b>Gold Analyzer Pro</b> • Plataforma Oficial de Análisis XAU/USD con Firebase Firestore</div>
+<footer class="mt-8 border-t border-blue-900/40 py-4 px-3 text-center text-[10px] text-zinc-500">
+  <div><b>GOLD ANALYZER</b> • Análisis técnico del oro • Indicador Oficial</div>
 </footer>
 
-<!-- SCRIPT OFICIAL CONECTADO A TU FIREBASE -->
 <script>
 const $ = (id) => document.getElementById(id);
+const WALLET_BEP20 = "0x4ec021c9900178c6e70492a1171167f3495a269d";
 
-// TUS CREDENCIALES OFICIALES DE FIREBASE
+// FIREBASE OFICIAL CONFIGURADO
 const firebaseConfig = {
   apiKey: "AIzaSyAcFeanVpaW2wUBSs4dhz22lLbw3PMal98",
   authDomain: "gold-analyzer-86e38.firebaseapp.com",
@@ -213,198 +301,81 @@ const firebaseConfig = {
   measurementId: "G-HX6L2X61XG"
 };
 
-let auth, db, currentUser = null, modoAuth = "login";
-
-// INICIALIZACIÓN SEGURA DE FIREBASE
+let db;
 try {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-  auth = firebase.auth();
   db = firebase.firestore();
-} catch (e) {
-  console.log("Firebase init:", e);
-}
+} catch (e) { console.log(e); }
 
-function mostrarToast(msg) {
-  const t = $("toast-alerta"); if (!t) return;
-  $("toast-msg").textContent = msg;
+function toast(m) {
+  const t = $("toast"); if (!t) return;
+  $("toast-text").textContent = m;
   t.classList.remove("hidden");
   setTimeout(() => t.classList.add("hidden"), 3500);
 }
 
-// GESTIÓN DE SESIÓN
-function updateAuthUI(u) {
-  currentUser = u;
-  if (u) {
-    $("auth-guest").classList.add("hidden");
-    $("auth-logged").classList.remove("hidden");
-    $("auth-logged").classList.add("flex");
-    $("logged-user-name").textContent = u.displayName || u.email.split("@")[0];
-  } else {
-    $("auth-guest").classList.remove("hidden");
-    $("auth-logged").classList.add("hidden");
-  }
+function actualizarReloj() {
+  const d = new Date();
+  $("live-clock").textContent = d.toTimeString().split(" ")[0];
 }
+setInterval(actualizarReloj, 1000);
+actualizarReloj();
 
-function abrirModalAuth(modo) {
-  modoAuth = modo;
-  tabAuth(modo);
-  $("modal-auth").classList.remove("hidden");
-  $("modal-auth").classList.add("flex");
-}
-
-function cerrarModalAuth() {
-  $("modal-auth").classList.add("hidden");
-  $("modal-auth").classList.remove("flex");
-}
-
-function tabAuth(m) {
-  modoAuth = m;
-  const isL = (m === "login");
-  $("tab-login").className = isL ? "flex-1 pb-2 text-xs font-black text-amber-400 border-b-2 border-amber-500" : "flex-1 pb-2 text-xs font-bold text-zinc-400";
-  $("tab-reg").className = !isL ? "flex-1 pb-2 text-xs font-black text-amber-400 border-b-2 border-amber-500" : "flex-1 pb-2 text-xs font-bold text-zinc-400";
-  $("auth-alias-container").classList.toggle("hidden", isL);
-  $("auth-submit-btn").textContent = isL ? "Ingresar a mi Cuenta" : "Crear mi Cuenta";
-}
-
-async function procesarAuth(e) {
-  e.preventDefault();
-  const email = $("auth-email").value.trim();
-  const pass = $("auth-pass").value;
-  const nombre = $("auth-nombre").value.trim();
-
-  try {
-    if (modoAuth === "login") {
-      if (auth) {
-        const cred = await auth.signInWithEmailAndPassword(email, pass);
-        updateAuthUI(cred.user);
+function cambiarTemporalidad(intervalo, etiqueta) {
+  ["1", "5", "15", "60"].forEach(i => {
+    const b = $("btn-t-" + i);
+    if (b) {
+      if (i === intervalo) {
+        b.className = "px-2.5 py-1 rounded-lg bg-amber-400 text-zinc-950 font-bold";
       } else {
-        updateAuthUI({ email: email, displayName: email.split("@")[0] });
+        b.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white font-bold";
       }
-      mostrarToast("¡Bienvenido a Gold Analyzer!");
-    } else {
-      if (auth) {
-        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-        if (nombre) await cred.user.updateProfile({ displayName: nombre });
-        updateAuthUI(cred.user);
-      } else {
-        updateAuthUI({ email: email, displayName: nombre || email.split("@")[0] });
-      }
-      mostrarToast("¡Cuenta creada con éxito en Firebase!");
     }
-    cerrarModalAuth();
-  } catch (err) {
-    mostrarToast("Aviso: " + err.message);
-  }
+  });
+  $("label-interval").textContent = etiqueta;
+  $("tradingview-iframe").src = "https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=OANDA%3AXAUUSD&interval=" + intervalo + "&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=es";
 }
 
-function loginDemoDirecto() {
-  const demoUser = { email: "trader@goldanalyzer.pro", displayName: "Gold Trader VIP" };
-  updateAuthUI(demoUser);
-  cerrarModalAuth();
-  mostrarToast("Sesión Demo conectada.");
+function abrirModalPago(plan, precio) {
+  $("modal-plan-nombre").textContent = plan;
+  $("modal-plan-precio").textContent = precio + " USDT";
+  $("modal-pago").classList.remove("hidden");
+  $("modal-pago").classList.add("flex");
 }
 
-function cerrarSesion() {
-  if (auth) auth.signOut().catch(() => {});
-  updateAuthUI(null);
-  mostrarToast("Sesión cerrada.");
+function cerrarModalPago() {
+  $("modal-pago").classList.add("hidden");
+  $("modal-pago").classList.remove("flex");
 }
 
-// GUARDAR ANÁLISIS EN FIRESTORE
-async function guardarAnalisisFirestore(e) {
+function copiarBilletera() {
+  navigator.clipboard.writeText(WALLET_BEP20).then(() => {
+    toast("✅ Billetera copiada: " + WALLET_BEP20);
+  }).catch(() => {
+    toast("Dirección: " + WALLET_BEP20);
+  });
+}
+
+async function confirmarPagoDesbloqueo(e) {
   e.preventDefault();
-  const titulo = $("analisis-titulo").value.trim();
-  const direccion = $("analisis-direccion").value;
-  const precio = parseFloat($("analisis-precio").value) || 0;
-  const notas = $("analisis-notas").value.trim();
+  const nom = $("pago-nombre").value.trim();
+  const contacto = $("pago-contacto").value.trim();
+  const txid = $("pago-txid").value.trim();
+  const plan = $("modal-plan-nombre").textContent;
 
-  const autor = currentUser ? (currentUser.displayName || currentUser.email) : "Trader Anónimo";
-
-  const nuevoDoc = {
-    titulo: titulo,
-    direccion: direccion,
-    precio: precio,
-    notas: notas,
-    autor: autor,
+  const doc = {
+    nombre: nom,
+    contacto: contacto,
+    txid: txid,
+    plan: plan,
+    billeteraDestino: WALLET_BEP20,
+    estado: "PENDIENTE_REVISION",
     fecha: new Date().toLocaleString("es-ES"),
     timestamp: Date.now()
   };
 
   try {
-    if (db) {
-      await db.collection("AnalisisOro").add(nuevoDoc);
-      mostrarToast("✅ Análisis guardado en Firebase Firestore.");
-    } else {
-      guardarAnalisisLocal(nuevoDoc);
-    }
-    e.target.reset();
-  } catch (err) {
-    guardarAnalisisLocal(nuevoDoc);
-    mostrarToast("Guardado localmente (" + err.message + ")");
-  }
-}
+    if (db) await db.collection("PagosPlanes").add(doc);
+  } catch (err) {}
 
-function guardarAnalisisLocal(doc) {
-  let list = JSON.parse(localStorage.getItem("gold_analisis") || "[]");
-  list.unshift(doc);
-  localStorage.setItem("gold_analisis", JSON.stringify(list));
-  renderAnalisis(list);
-}
-
-// ESCUCHA EN TIEMPO REAL DE FIRESTORE
-function escucharAnalisis() {
-  if (db) {
-    db.collection("AnalisisOro").orderBy("timestamp", "desc").limit(15).onSnapshot(snap => {
-      let docs = [];
-      snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
-      renderAnalisis(docs);
-    }, () => {
-      cargarAnalisisLocal();
-    });
-  } else {
-    cargarAnalisisLocal();
-  }
-}
-
-function cargarAnalisisLocal() {
-  let list = JSON.parse(localStorage.getItem("gold_analisis") || "[]");
-  if (!list.length) {
-    list = [
-      { titulo: "Ruptura de Resistencia 2,740", direccion: "COMPRA (LONG) ↗", precio: 2742.50, autor: "York Colmenarez", fecha: "Hoy" },
-      { titulo: "Rebote en EMA 50 1H", direccion: "COMPRA (LONG) ↗", precio: 2735.00, autor: "Kervin Perez", fecha: "Hoy" }
-    ];
-  }
-  renderAnalisis(list);
-}
-
-function renderAnalisis(lista) {
-  const cont = $("lista-analisis"); if (!cont) return;
-  if (!lista.length) {
-    cont.innerHTML = '<div class="text-center text-zinc-500 py-6">Aún no hay análisis guardados. ¡Sé el primero en guardar uno!</div>';
-    return;
-  }
-  cont.innerHTML = lista.map(a => `
-    <div class="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1">
-      <div class="flex justify-between items-center">
-        <span class="font-bold text-white text-xs">${a.titulo}</span>
-        <span class="${a.direccion.includes('COMPRA') ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'} px-2 py-0.5 rounded text-[10px] font-black">${a.direccion}</span>
-      </div>
-      <div class="flex justify-between text-[11px] text-zinc-400 font-mono">
-        <span>Precio: <b class="text-amber-300">$${a.precio}</b></span>
-        <span>Por: <b class="text-zinc-300">${a.autor}</b></span>
-      </div>
-      ${a.notas ? `<p class="text-[10px] text-zinc-400 italic">${a.notas}</p>` : ''}
-    </div>
-  `).join("");
-}
-
-// INICIALIZACIÓN
-window.addEventListener("DOMContentLoaded", () => {
-  if (auth) {
-    auth.onAuthStateChanged(u => updateAuthUI(u));
-  }
-  escucharAnalisis();
-});
-</script>
-</body>
-</html>
+  let pagos = JSON
