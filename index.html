@@ -68,3 +68,104 @@
   </div>
   <div>
     <label class="block text-[10px] text-zinc-400 mb-0.5">Correo Electrónico</label>
+
+Fran rokefeller:
+<input type="email" id="auth-email" required placeholder="tu@correo.com" class="inpt">
+  </div>
+  <div>
+    <label class="block text-[10px] text-zinc-400 mb-0.5">Contraseña</label>
+    <input type="password" id="auth-pass" required placeholder="••••••••" class="inpt">
+  </div>
+  <button type="submit" id="auth-submit-btn" class="w-full gold-gradient text-zinc-950 font-black py-2 rounded-xl text-xs shadow mt-2">
+    Ingresar a mi Cuenta
+  </button>
+  <button type="button" onclick="loginDemoDirecto()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 py-1.5 rounded-xl text-xs font-bold">
+    Acceso Rápido Demo ⚡
+  </button>
+</form>
+
+Fran rokefeller:
+<!-- ACCESO USUARIO / AUTH -->
+<div class="flex items-center gap-2 text-xs">
+  <div id="auth-guest" class="flex items-center gap-1.5">
+    <button onclick="abrirModalAuth('login')" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-bold px-2.5 py-1 rounded-lg text-xs">Ingresar</button>
+    <button onclick="abrirModalAuth('reg')" class="gold-gradient text-zinc-950 font-black px-2.5 py-1 rounded-lg text-xs shadow">Crear Cuenta</button>
+  </div>
+
+  <div id="auth-logged" class="hidden items-center gap-1.5">
+    <span class="inline-flex items-center gap-1 bg-amber-500/10 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-xl text-[11px] font-bold">
+      <i class="fa-solid fa-user-check text-emerald-400"></i> <span id="logged-user-name">Usuario</span>
+    </span>
+    <button onclick="cerrarSesion()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-red-400 px-2 py-1 rounded-lg text-xs border border-zinc-800" title="Cerrar Sesión">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    </button>
+  </div>
+</div>
+<div class="h-[480px] w-full rounded-xl overflow-hidden bg-black">
+  <iframe 
+    src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=OANDA%3AXAUUSD&interval=60&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=es"
+    class="w-full h-full border-0">
+  </iframe>
+</div>
+  <form onsubmit="guardarAnalisisFirestore(event)" class="space-y-2 text-xs">
+    <div>
+      <label class="block text-[10px] text-zinc-400 mb-1">Título de tu Análisis / Operación</label>
+      <input type="text" id="analisis-titulo" required placeholder="Ej. Compra en Soporte 2,735.00 con TP en 2,755.00" class="inpt">
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label class="block text-[10px] text-zinc-400 mb-1">Dirección Prevista</label>
+        <select id="analisis-direccion" class="inpt cursor-pointer">
+          <option value="COMPRA (LONG) ↗️">COMPRA (LONG) ↗️</option>
+          <option value="VENTA (SHORT) ↘️">VENTA (SHORT) ↘️</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[10px] text-zinc-400 mb-1">Precio de Entrada Sugerido</label>
+        <input type="number" step="0.1" id="analisis-precio" required placeholder="2745.00" class="inpt">
+      </div>
+    </div>
+    <div>
+      <label class="block text-[10px] text-zinc-400 mb-1">Notas y Razonamiento Técnico</label>
+      <textarea id="analisis-notas" rows="2" placeholder="Ej. Doble suelo en temporalidad 15M con divergencia en RSI..." class="inpt"></textarea>
+    </div>
+    <button type="submit" class="w-full gold-gradient text-zinc-950 font-black py-2 rounded-xl text-xs active:scale-95 shadow">
+      <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar en Base de Datos
+    </button>
+  </form>
+</div>
+
+<!-- LISTA DE ANÁLISIS GUARDADOS EN TIEMPO REAL -->
+<div class="card-dark rounded-2xl p-4 space-y-3">
+  <div class="flex justify-between items-center">
+    <h3 class="text-xs font-black text-white flex items-center gap-1.5">
+      <i class="fa-solid fa-list-check text-emerald-400"></i> Historial de Análisis Guardados
+    </h3>
+    <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">Firestore Sync</span>
+  </div>
+  <div id="lista-analisis" class="space-y-2 max-h-72 overflow-y-auto text-xs pr-1">
+    <div class="text-center text-zinc-500 text-[11px] py-8">Cargando análisis desde Firebase...</div>
+  </div>
+</div>
+<form id="form-auth" onsubmit="procesarAuth(event)" class="space-y-2.5">
+  <div id="auth-alias-container" class="hidden">
+    <label class="block text-[10px] text-zinc-400 mb-0.5">Nombre o Alias</label>
+    <input type="text" id="auth-nombre" placeholder="Ej. Trader Gold" class="inpt">
+  </div>
+  <div>
+    <label class="block text-[10px] text-zinc-400 mb-0.5">Correo Electrónico</label>
+
+Fran rokefeller:
+<input type="email" id="auth-email" required placeholder="tu@correo.com" class="inpt">
+  </div>
+  <div>
+    <label class="block text-[10px] text-zinc-400 mb-0.5">Contraseña</label>
+    <input type="password" id="auth-pass" required placeholder="••••••••" class="inpt">
+  </div>
+  <button type="submit" id="auth-submit-btn" class="w-full gold-gradient text-zinc-950 font-black py-2 rounded-xl text-xs shadow mt-2">
+    Ingresar a mi Cuenta
+  </button>
+  <button type="button" onclick="loginDemoDirecto()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 py-1.5 rounded-xl text-xs font-bold">
+    Acceso Rápido Demo ⚡
+  </button>
+</form>
