@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title> Gold Analyzer - Análisis Técnico XAU/USD </title>
+<title>Gold Analyzer Pro - Análisis Técnico XAU/USD & Firebase</title>
 <meta name="description" content="Plataforma profesional de análisis técnico, gráficos en tiempo real y base de datos de alertas para Oro (XAU/USD).">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -40,9 +41,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #07090e; color:
 </div>
 <div>
 <h1 class="text-sm font-black text-white flex items-center gap-1.5 leading-none">
-GOLD <span class="gold-text">ANALYZER</span> <span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1 py-0.2 rounded font-bold"</span>
+GOLD <span class="gold-text">ANALYZER</span> <span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1 py-0.2 rounded font-bold">PRO</span>
 </h1>
-<p class="text-[9px] text-zinc-400 mt-0.5">XAU/USD • indicador </p>
+<p class="text-[9px] text-zinc-400 mt-0.5">XAU/USD • Firebase Conectado</p>
 </div>
 </div>
 
@@ -57,7 +58,7 @@ GOLD <span class="gold-text">ANALYZER</span> <span class="text-[9px] bg-amber-50
 <span class="inline-flex items-center gap-1 bg-amber-500/10 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-xl text-[11px] font-bold">
 <i class="fa-solid fa-user-check text-emerald-400"></i> <span id="logged-user-name">Usuario</span>
 
-  Fran rokefeller:
+Fran rokefeller:
 </span>
 <button onclick="cerrarSesion()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-red-400 px-2 py-1 rounded-lg text-xs border border-zinc-800" title="Cerrar Sesión">
 <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -205,3 +206,212 @@ Acceso Rápido Demo ⚡
 <!-- SCRIPT OFICIAL CONECTADO A TU FIREBASE -->
 <script>
 const $ = (id) => document.getElementById(id);
+
+Fran rokefeller:
+// TUS CREDENCIALES OFICIALES DE FIREBASE
+const firebaseConfig = {
+apiKey: "AIzaSyAcFeanVpaW2wUBSs4dhz22lLbw3PMal98",
+authDomain: "gold-analyzer-86e38.firebaseapp.com",
+projectId: "gold-analyzer-86e38",
+storageBucket: "gold-analyzer-86e38.firebasestorage.app",
+messagingSenderId: "686965257559",
+appId: "1:686965257559:web:29dd50eac5d2459a97fa12",
+measurementId: "G-HX6L2X61XG"
+};
+
+let auth, db, currentUser = null, modoAuth = "login";
+
+// INICIALIZACIÓN SEGURA DE FIREBASE
+try {
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+auth = firebase.auth();
+db = firebase.firestore();
+} catch (e) {
+console.log("Firebase init:", e);
+}
+
+function mostrarToast(msg) {
+const t = $("toast-alerta"); if (!t) return;
+$("toast-msg").textContent = msg;
+t.classList.remove("hidden");
+setTimeout(() => t.classList.add("hidden"), 3500);
+}
+
+// GESTIÓN DE SESIÓN
+function updateAuthUI(u) {
+currentUser = u;
+if (u) {
+$("auth-guest").classList.add("hidden");
+$("auth-logged").classList.remove("hidden");
+$("auth-logged").classList.add("flex");
+$("logged-user-name").textContent = u.displayName || u.email.split("@")[0];
+} else {
+$("auth-guest").classList.remove("hidden");
+$("auth-logged").classList.add("hidden");
+}
+}
+
+function abrirModalAuth(modo) {
+modoAuth = modo;
+tabAuth(modo);
+$("modal-auth").classList.remove("hidden");
+$("modal-auth").classList.add("flex");
+}
+
+function cerrarModalAuth() {
+$("modal-auth").classList.add("hidden");
+$("modal-auth").classList.remove("flex");
+}
+
+function tabAuth(m) {
+modoAuth = m;
+const isL = (m === "login");
+$("tab-login").className = isL ? "flex-1 pb-2 text-xs font-black text-amber-400 border-b-2 border-amber-500" : "flex-1 pb-2 text-xs font-bold text-zinc-400";
+$("tab-reg").className = !isL ? "flex-1 pb-2 text-xs font-black text-amber-400 border-b-2 border-amber-500" : "flex-1 pb-2 text-xs font-bold text-zinc-400";
+$("auth-alias-container").classList.toggle("hidden", isL);
+$("auth-submit-btn").textContent = isL ? "Ingresar a mi Cuenta" : "Crear mi Cuenta";
+}
+
+async function procesarAuth(e) {
+e.preventDefault();
+const email = $("auth-email").value.trim();
+const pass = $("auth-pass").value;
+const nombre = $("auth-nombre").value.trim();
+
+try {
+if (modoAuth === "login") {
+if (auth) {
+const cred = await auth.signInWithEmailAndPassword(email, pass);
+updateAuthUI(cred.user);
+} else {
+updateAuthUI({ email: email, displayName: email.split("@")[0] });
+}
+mostrarToast("¡Bienvenido a Gold Analyzer!");
+} else {
+if (auth) {
+const cred = await auth.createUserWithEmailAndPassword(email, pass);
+if (nombre) await cred.user.updateProfile({ displayName: nombre });
+updateAuthUI(cred.user);
+} else {
+updateAuthUI({ email: email, displayName: nombre || email.split("@")[0] });
+}
+mostrarToast("¡Cuenta creada con éxito en Firebase!");
+}
+cerrarModalAuth();
+} catch (err) {
+mostrarToast("Aviso: " + err.message);
+}
+}
+
+function loginDemoDirecto() {
+const demoUser = { email: "trader@goldanalyzer.pro", displayName: "Gold Trader VIP" };
+updateAuthUI(demoUser);
+cerrarModalAuth();
+mostrarToast("Sesión Demo conectada.");
+}
+
+function cerrarSesion() {
+if (auth) auth.signOut().catch(() => {});
+updateAuthUI(null);
+mostrarToast("Sesión cerrada.");
+}
+
+// GUARDAR ANÁLISIS EN FIRESTORE
+async function guardarAnalisisFirestore(e) {
+e.preventDefault();
+const titulo = $("analisis-titulo").value.trim();
+const direccion = $("analisis-direccion").value;
+const precio = parseFloat($("analisis-precio").value) || 0;
+const notas = $("analisis-notas").value.trim();
+
+const autor = currentUser ? (currentUser.displayName || currentUser.email) : "Trader Anónimo";
+
+const nuevoDoc = {
+titulo: titulo,
+direccion: direccion,
+precio: precio,
+notas: notas,
+autor: autor,
+fecha: new Date().toLocaleString("es-ES"),
+timestamp: Date.now()
+};
+
+Fran rokefeller:
+try {
+if (db) {
+await db.collection("AnalisisOro").add(nuevoDoc);
+mostrarToast("✅ Análisis guardado en Firebase Firestore.");
+} else {
+guardarAnalisisLocal(nuevoDoc);
+}
+e.target.reset();
+} catch (err) {
+guardarAnalisisLocal(nuevoDoc);
+mostrarToast("Guardado localmente (" + err.message + ")");
+}
+}
+
+function guardarAnalisisLocal(doc) {
+let list = JSON.parse(localStorage.getItem("gold_analisis") || "[]");
+list.unshift(doc);
+localStorage.setItem("gold_analisis", JSON.stringify(list));
+renderAnalisis(list);
+}
+
+// ESCUCHA EN TIEMPO REAL DE FIRESTORE
+function escucharAnalisis() {
+if (db) {
+db.collection("AnalisisOro").orderBy("timestamp", "desc").limit(15).onSnapshot(snap => {
+let docs = [];
+snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
+renderAnalisis(docs);
+}, () => {
+cargarAnalisisLocal();
+});
+} else {
+cargarAnalisisLocal();
+}
+}
+
+function cargarAnalisisLocal() {
+let list = JSON.parse(localStorage.getItem("gold_analisis") || "[]");
+if (!list.length) {
+list = [
+{ titulo: "Ruptura de Resistencia 2,740", direccion: "COMPRA (LONG) ↗", precio: 2742.50, autor: "York Colmenarez", fecha: "Hoy" },
+{ titulo: "Rebote en EMA 50 1H", direccion: "COMPRA (LONG) ↗", precio: 2735.00, autor: "Kervin Perez", fecha: "Hoy" }
+];
+}
+renderAnalisis(list);
+}
+
+function renderAnalisis(lista) {
+const cont = $("lista-analisis"); if (!cont) return;
+if (!lista.length) {
+cont.innerHTML = '<div class="text-center text-zinc-500 py-6">Aún no hay análisis guardados. ¡Sé el primero en guardar uno!</div>';
+return;
+}
+cont.innerHTML = lista.map(a => 
+<div class="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1">
+<div class="flex justify-between items-center">
+<span class="font-bold text-white text-xs">${a.titulo}</span>
+<span class="${a.direccion.includes('COMPRA') ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'} px-2 py-0.5 rounded text-[10px] font-black">${a.direccion}</span>
+</div>
+<div class="flex justify-between text-[11px] text-zinc-400 font-mono">
+<span>Precio: <b class="text-amber-300">$${a.precio}</b></span>
+<span>Por: <b class="text-zinc-300">${a.autor}</b></span>
+</div>
+${a.notas ? <p class="text-[10px] text-zinc-400 italic">${a.notas}</p> : ''}
+</div>
+).join("");
+}
+
+// INICIALIZACIÓN
+window.addEventListener("DOMContentLoaded", () => {
+if (auth) {
+auth.onAuthStateChanged(u => updateAuthUI(u));
+}
+escucharAnalisis();
+});
+</script>
+</body>
+</html>
