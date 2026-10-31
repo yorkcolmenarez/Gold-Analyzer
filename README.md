@@ -1,4 +1,4 @@
-# Gold Analyzer Pro 📈🪙
+# Gold Analyzer 📈🪙
 
 Plataforma profesional de análisis técnico y herramientas para el mercado del Oro (**XAU/USD**).
 
