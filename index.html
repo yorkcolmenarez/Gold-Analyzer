@@ -1,194 +1,71 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Gold Analyzer - Análisis Técnico del Oro | XAU/USD</title>
-<meta name="description" content="Gold Analyzer - Plataforma de análisis técnico, cotización en tiempo real y señales del oro XAU/USD.">
-<meta name="theme-color" content="#070c18">
-<link rel="icon" type="image/jpeg" href="logo.jpg">
-
-<!-- RESPALDO LOGO DORADO OFICIAL G CAPITAL -->
-<script>
-window.LOGO_DATA = "data:image/jpeg;base64,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";
-</script>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- Firebase compat SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: #070c18;
-  color: #f1f5f9;
-  margin: 0;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-.card-navy {
-  background: #0d1527;
-  border: 1px solid rgba(30, 58, 138, 0.4);
-}
-.card-navy:hover {
-  border-color: rgba(245, 158, 11, 0.45);
-}
-.gold-btn {
-  background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
-  color: #090d16;
-  font-weight: 800;
-  border-radius: 10px;
-}
-.gold-btn:hover { background: #fde047; }
-.gold-outline {
-  border: 1px solid #facc15;
-  color: #facc15;
-  font-weight: 800;
-  border-radius: 10px;
-}
-.gold-outline:hover {
-  background: #facc15;
-  color: #090d16;
-}
-.inpt {
-  width: 100%;
-  background: #070b14;
-  border: 1px solid #1e293b;
-  border-radius: 10px;
-  padding: 9px 12px;
-  font-size: 13px;
-  color: #fff;
-  outline: none;
-}
-.inpt:focus {
-  border-color: #facc15;
-  box-shadow: 0 0 0 1px #facc15;
-}
-</style>
-</head>
-<body class="min-h-screen bg-[#070c18] text-slate-100 flex flex-col justify-between antialiased">
-
-<!-- NOTIFICACIÓN FLOTANTE -->
-<div id="toast" class="fixed top-3 left-1/2 -translate-x-1/2 z-50 hidden bg-[#0f172a] border border-amber-400 text-amber-200 text-xs px-4 py-2.5 rounded-2xl shadow-2xl backdrop-blur max-w-sm w-11/12 flex items-center justify-between">
-  <span id="toast-text">Notificación</span>
-  <button onclick="this.parentElement.classList.add('hidden')"><i class="fa-solid fa-xmark text-zinc-400"></i></button>
-</div>
-
-<!-- CABECERA PRINCIPAL (IDÉNTICA AL VIDEO) -->
-<header class="sticky top-0 z-40 bg-[#070c18]/95 backdrop-blur border-b border-blue-900/40 px-3 sm:px-6 py-2.5">
-  <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
-    
-    <!-- LOGO COMPLETO Y MARCA -->
-    <div class="flex items-center gap-2.5 min-w-0">
-      <div class="w-10 h-10 rounded-full border border-amber-400/80 p-0.5 bg-black shrink-0 shadow-lg shadow-amber-500/20 overflow-hidden flex items-center justify-center">
-        <img 
-          src="logo.jpg" 
-          onerror="this.onerror=null;this.src=(window.LOGO_DATA||'public/logo.jpg');" 
-          alt="Gold Analyzer Logo" 
-          class="w-full h-full object-contain rounded-full"
-        >
-      </div>
-
-      <div class="min-w-0">
-        <h1 class="text-sm sm:text-base font-black tracking-wide text-white leading-none">GOLD ANALYZER</h1>
-        <p class="text-[10px] text-zinc-400 mt-1 leading-tight">Análisis técnico del oro • Indicador</p>
+</span>
+        <button onclick="cerrarSesion()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-red-400 px-2 py-1 rounded-lg text-xs border border-zinc-800" title="Cerrar Sesión">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
       </div>
     </div>
-
-    <!-- BOTONES DE ESTADO (MERCADO REAL Y EN VIVO) -->
-    <div class="flex items-center gap-2 shrink-0">
-      <div class="hidden sm:flex items-center gap-1.5 bg-[#0b1329] border border-emerald-500/40 text-emerald-400 px-3 py-1.5 rounded-full text-[11px] font-bold">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>PRECIO EN VIVO • MERCADO REAL XAU/USD</span>
-      </div>
-
-      <div class="flex items-center gap-1.5 border border-emerald-500/60 text-emerald-400 px-2.5 py-1 rounded text-xs font-bold bg-emerald-950/20">
-        <i class="fa-solid fa-signal text-[10px]"></i>
-        <span>En vivo</span>
-      </div>
-
-      <button onclick="actualizarDatosManual()" class="w-8 h-8 rounded-full bg-[#0d1527] border border-blue-900/50 flex items-center justify-center text-zinc-400 hover:text-amber-400 transition-all text-xs" title="Actualizar">
-        <i class="fa-solid fa-arrows-rotate"></i>
-      </button>
-      <button onclick="toast('ℹ️ Fuente en tiempo real: Mercado Spot Internacional (LBMA/Coinbase)');" class="w-8 h-8 rounded-full bg-[#0d1527] border border-blue-900/50 flex items-center justify-center text-zinc-400 hover:text-white transition-all text-xs" title="Información">
-        <i class="fa-solid fa-info"></i>
-      </button>
-    </div>
-
   </div>
 </header>
 
-<main class="max-w-7xl mx-auto px-3 sm:px-6 py-4 w-full space-y-4 flex-1">
-
-  <!-- BANNER PRINCIPAL DE COTIZACIÓN -->
-  <div class="card-navy rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col md:flex-row justify-between md:items-center gap-4">
-    <div>
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="text-xs font-bold text-zinc-300">XAUUSD • ORO / DÓLAR ESTADOUNIDENSE</span>
-        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> PRECIO ORIGINAL EN VIVO
-        </span>
-      </div>
-
-      <div class="flex items-baseline gap-3 mt-1.5">
-        <h2 class="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" id="live-gold-val">$3,892.38</h2>
-        <span class="text-xs sm:text-sm font-black text-rose-500 flex items-center gap-1 font-mono">
-          <i class="fa-solid fa-arrow-down text-xs"></i> -2.66% (24h)
-        </span>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-4 text-[11px] text-zinc-400 mt-2 font-mono">
-        <div>24h Máx: <b class="text-zinc-200" id="val-max">$3942.63</b></div>
-        <div>24h Mín: <b class="text-zinc-200" id="val-min">$3849.13</b></div>
-        <div>Spread: <b class="text-zinc-200">0.08 USD</b></div>
-      </div>
+<main class="max-w-6xl mx-auto px-3 py-4 w-full space-y-4 flex-1">
+  
+  <!-- BARRA DE PRECIOS XAU/USD -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+    <div class="card-dark rounded-xl p-3">
+      <div class="text-[10px] text-zinc-400 font-bold">XAU/USD (Oro al Contado)</div>
+      <div class="text-base font-black text-amber-300 mt-0.5 font-mono">2,746.40</div>
+      <div class="text-[10px] text-emerald-400 font-bold">+0.72% (En Vivo)</div>
     </div>
-
-    <div class="text-left md:text-right text-[11px] text-zinc-400 space-y-0.5 border-t md:border-t-0 pt-3 md:pt-0 border-blue-900/40">
-      <div class="font-bold text-amber-300 flex items-center md:justify-end gap-1.5 text-xs">
-        <i class="fa-solid fa-shield-halved text-amber-400"></i> Cotización Original de Mercado XAU/USD
-      </div>
-      <div>Fuente: <span class="text-zinc-200">Mercado Spot Internacional (Coinbase/LBMA)</span></div>
-      <div>Actualización: <span class="text-zinc-200 font-mono font-bold" id="live-clock">21:49:22</span></div>
+    <div class="card-dark rounded-xl p-3">
+      <div class="text-[10px] text-zinc-400 font-bold">Tendencia 1H / 4H</div>
+      <div class="text-base font-black text-emerald-400 mt-0.5">FUERTE ALCISTA ↗</div>
+      <div class="text-[10px] text-zinc-400">RSI: 61.2 (Impulso Comprador)</div>
+    </div>
+    <div class="card-dark rounded-xl p-3">
+      <div class="text-[10px] text-zinc-400 font-bold">Soporte Clave</div>
+      <div class="text-base font-black text-sky-400 mt-0.5 font-mono">2,734.00</div>
+      <div class="text-[10px] text-zinc-400">Zona de Rebote</div>
+    </div>
+    <div class="card-dark rounded-xl p-3">
+      <div class="text-[10px] text-zinc-400 font-bold">Resistencia Clave</div>
+      <div class="text-base font-black text-rose-400 mt-0.5 font-mono">2,758.50</div>
+      <div class="text-[10px] text-zinc-400">Objetivo del Día</div>
     </div>
   </div>
 
-  <!-- LOS 4 PLANES DE SUSCRIPCIÓN (EXACTOS DEL VIDEO) -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-    
-    <!-- 1. PLAN INICIAL -->
-    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
-      <div>
-        <div class="flex justify-between items-center">
-          <span class="text-xs font-black text-zinc-200 tracking-wide">PLAN INICIAL</span>
-          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
-        </div>
-        <div class="mt-2.5">
-          <div class="text-2xl font-black text-amber-400 font-mono">5 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
-          <p class="text-[11px] text-zinc-400 mt-1">Para comenzar con operaciones esenciales.</p>
-        </div>
-        <ul class="text-[11px] text-zinc-300 space-y-2 mt-3.5 pt-3 border-t border-blue-900/40">
-          <li class="flex items-center gap-1.5">• 1 operación diaria</li>
-          <li class="flex items-center gap-1.5">• Gráfico y temporalidades 1m, 5m, 15m y 1h</li>
-          <li class="flex items-center gap-1.5">• Tendencia, soporte y resistencia</li>
-        </ul>
-      </div>
-      <button onclick="abrirModalSuscripcion('PLAN INICIAL', 5, '1 operación diaria')" class="gold-outline w-full py-2.5 text-xs font-black mt-4 active:scale-95 transition-all">
-        ELEGIR INICIAL
-      </button>
+  <!-- GRÁFICO EN TIEMPO REAL TRADINGVIEW -->
+  <div class="card-dark rounded-2xl overflow-hidden shadow-2xl p-2 space-y-2">
+    <div class="flex items-center justify-between px-2 pt-1">
+      <h2 class="text-xs font-black text-white flex items-center gap-1.5">
+        <i class="fa-solid fa-chart-candlestick text-amber-400"></i> Gráfica Profesional en Tiempo Real (XAU/USD)
+      </h2>
+      <span class="text-[10px] text-emerald-400 font-mono font-bold"><i class="fa-solid fa-wifi mr-1"></i> Conectado</span>
     </div>
+    
+    <div class="h-[480px] w-full rounded-xl overflow-hidden bg-black">
+      <iframe 
+        src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=OANDA%3AXAUUSD&interval=60&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=es"
+        class="w-full h-full border-0">
+      </iframe>
+    </div>
+  </div>
 
-    <!-- 2. PLAN STANDARD -->
-    <div class="card-navy rounded-2xl p-4 flex flex-col justify-between shadow-lg">
-      <div>
-        <div class="flex justify-between items-center">
-          <span class="text-xs font-black text-zinc-200 tracking-wide">PLAN STANDARD</span>
-          <span class="text-[10px] text-zinc-400 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i> Bloqueado</span>
+  <!-- SECCIÓN FIRESTORE: GUARDAR ANÁLISIS & ALERTAS DE ORO -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- PANEL PARA GUARDAR ANÁLISIS EN LA BASE DE DATOS -->
+    <div class="card-dark rounded-2xl p-4 space-y-3">
+      <div class="flex justify-between items-center">
+        <h3 class="text-xs font-black text-white flex items-center gap-1.5">
+          <i class="fa-solid fa-cloud-arrow-up text-amber-400"></i> Guardar Análisis en Firebase Firestore
+        </h3>
+        <span class="text-[9px] text-amber-400/80 font-mono">BD: gold-analyzer-86e38</span>
+      </div>
+
+      <form onsubmit="guardarAnalisisFirestore(event)" class="space-y-2 text-xs">
+        <div>
+          <label class="block text-[10px] text-zinc-400 mb-1">Título de tu Análisis / Operación</label>
+          <input type="text" id="analisis-titulo" required placeholder="Ej. Compra en Soporte 2,735.00 con TP en 2,755.00" class="inpt">
         </div>
-        <div class="mt-2.5">
-          <div class="text-2xl font-black text-amber-400 font-mono">10 USDT <span class="text-xs text-zinc-400 font-normal">/ mes</span></div>
-      
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] text-zinc-400 mb-1">Dirección Prevista</label>
